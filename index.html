@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayerLofi - Lecteur de Musique</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 PlayerLofi</h1>
+            <p>Lecteur de musique relaxante</p>
+            <p class="source-info">Flux audio de la chaîne YouTube <a href="https://www.youtube.com/@LofiGirl" target="_blank" rel="noopener">Lofi Girl</a></p>
+        </header>
+
+        <div class="player">
+            <div class="current-track">
+                <h2 id="track-title">Sélectionnez un flux</h2>
+                <p id="track-description">Choisissez une musique pour commencer</p>
+            </div>
+
+            <div class="controls">
+                <button id="play-btn" class="control-btn" disabled>
+                    <span class="play-icon">▶️</span>
+                    <span class="pause-icon" style="display: none;">⏸️</span>
+                </button>
+                <button id="stop-btn" class="control-btn" disabled>⏹️</button>
+            </div>
+
+            <div class="volume-control">
+                <label for="volume">Volume:</label>
+                <input type="range" id="volume" min="0" max="100" value="50">
+                <span id="volume-value">50%</span>
+            </div>
+        </div>
+
+        <div class="playlist">
+            <h3>Flux disponibles</h3>
+            <div class="track-list">
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=xORCbIptqcc">
+                    <div class="track-info">
+                        <h4>💤 Sleep Ambient Radio</h4>
+                        <p>Relaxing music to fall asleep to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=IxPANmjPaek">
+                    <div class="track-info">
+                        <h4>🏰 Medieval Lofi Radio</h4>
+                        <p>Beats to scribe manuscripts to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=uFlzUaisbig">
+                    <div class="track-info">
+                        <h4>📝 POV: It's Monday</h4>
+                        <p>It's Monday and you have an essay due tomorrow</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=P6Segk8cr-c">
+                    <div class="track-info">
+                        <h4>☔ Sad Lofi Radio</h4>
+                        <p>Beats for rainy days</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=1oDrJba2PSs">
+                    <div class="track-info">
+                        <h4>📚 Study With Me</h4>
+                        <p>Pomodoro</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=HuFYqnbVbzY">
+                    <div class="track-info">
+                        <h4>🎷 Jazz Lofi Radio</h4>
+                        <p>Beats to chill/study to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=28KRPhVzCus">
+                    <div class="track-info">
+                        <h4>💤 Lofi Hip Hop Radio</h4>
+                        <p>Beats to sleep/chill to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=TtkFsfOP9QI">
+                    <div class="track-info">
+                        <h4>🎹 Peaceful Piano Radio</h4>
+                        <p>Music to focus/study to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=Na0w3Mz46GA">
+                    <div class="track-info">
+                        <h4>⛩️ Asian Lofi Radio</h4>
+                        <p>Beats to relax/study to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=S_MOd40zlYU">
+                    <div class="track-info">
+                        <h4>🌃 Dark Ambient Radio</h4>
+                        <p>Music to escape/dream to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=4xDzrJKXOOY">
+                    <div class="track-info">
+                        <h4>🌌 Synthwave Radio</h4>
+                        <p>Beats to chill/game to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+
+                <div class="track-item" data-url="https://www.youtube.com/watch?v=jfKfPfyJRdk">
+                    <div class="track-info">
+                        <h4>📚 Lofi Hip Hop Radio</h4>
+                        <p>Beats to relax/study to</p>
+                    </div>
+                    <button class="select-btn">Sélectionner</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 PlayerLofi - Projet libre de droits</p>
+                <p>Lecteur de musique minimaliste pour flux audio relaxants</p>
+                <p>Musique fournie par <a href="https://www.youtube.com/@LofiGirl" target="_blank" rel="noopener">Lofi Girl</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
