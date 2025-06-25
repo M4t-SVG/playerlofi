@@ -4,6 +4,7 @@ class PlayerLofi {
         this.isPlaying = false;
         this.volume = 0.5;
         this.iframe = null;
+        this.currentPlayingCard = null;
         
         this.initializeElements();
         this.bindEvents();
@@ -16,8 +17,8 @@ class PlayerLofi {
         this.volumeValue = document.getElementById('volume-value');
         this.trackTitle = document.getElementById('track-title');
         this.trackDescription = document.getElementById('track-description');
-        this.trackItems = document.querySelectorAll('.track-item');
-        this.selectBtns = document.querySelectorAll('.select-btn');
+        this.trackCards = document.querySelectorAll('.track-card');
+        this.playCardBtns = document.querySelectorAll('.play-card-btn');
     }
 
     bindEvents() {
@@ -38,36 +39,50 @@ class PlayerLofi {
             }
         });
 
-        // Sélection des pistes
-        this.selectBtns.forEach((btn, index) => {
-            btn.addEventListener('click', () => this.selectTrack(index));
+        // Boutons play sur les cards
+        this.playCardBtns.forEach((btn, index) => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.playCardTrack(index);
+            });
         });
 
-        // Clic sur les éléments de piste
-        this.trackItems.forEach((item, index) => {
-            item.addEventListener('click', () => this.selectTrack(index));
+        // Clic sur les cards
+        this.trackCards.forEach((card, index) => {
+            card.addEventListener('click', () => this.playCardTrack(index));
         });
     }
 
-    selectTrack(index) {
+    playCardTrack(index) {
+        // Arrêter le flux actuel s'il y en a un
+        if (this.currentPlayingCard !== null && this.currentPlayingCard !== index) {
+            this.stopCurrentTrack();
+        }
+
         // Retirer la sélection précédente
-        this.trackItems.forEach(item => item.classList.remove('active'));
-        this.selectBtns.forEach(btn => btn.classList.remove('selected'));
+        this.trackCards.forEach(card => card.classList.remove('active'));
+        this.playCardBtns.forEach(btn => {
+            btn.classList.remove('playing');
+            const playIcon = btn.querySelector('.play-icon');
+            const pauseIcon = btn.querySelector('.pause-icon');
+            playIcon.style.display = 'inline';
+            pauseIcon.style.display = 'none';
+        });
 
         // Ajouter la sélection actuelle
-        this.trackItems[index].classList.add('active');
-        this.selectBtns[index].classList.add('selected');
+        this.trackCards[index].classList.add('active');
+        this.currentPlayingCard = index;
 
         // Mettre à jour les informations de la piste
-        const trackInfo = this.trackItems[index].querySelector('.track-info');
-        const title = trackInfo.querySelector('h4').textContent;
-        const description = trackInfo.querySelector('p').textContent;
+        const cardContent = this.trackCards[index].querySelector('.card-content');
+        const title = cardContent.querySelector('h4').textContent;
+        const description = cardContent.querySelector('p').textContent;
         
         this.trackTitle.textContent = title;
         this.trackDescription.textContent = description;
 
         // Obtenir l'URL YouTube
-        const youtubeUrl = this.trackItems[index].dataset.url;
+        const youtubeUrl = this.trackCards[index].dataset.url;
         this.currentTrack = this.extractVideoId(youtubeUrl);
 
         // Activer les boutons de contrôle
@@ -80,6 +95,40 @@ class PlayerLofi {
         // Mettre à jour le bouton play pour indiquer que la musique est en cours de lecture
         this.isPlaying = true;
         this.updatePlayButton(true);
+        this.updateCardButton(index, true);
+    }
+
+    stopCurrentTrack() {
+        if (this.iframe) {
+            this.iframe.remove();
+            this.iframe = null;
+        }
+        
+        if (this.currentPlayingCard !== null) {
+            this.updateCardButton(this.currentPlayingCard, false);
+            this.trackCards[this.currentPlayingCard].classList.remove('active');
+        }
+        
+        this.currentPlayingCard = null;
+        this.currentTrack = null;
+        this.isPlaying = false;
+        this.updatePlayButton(false);
+    }
+
+    updateCardButton(cardIndex, playing) {
+        const btn = this.playCardBtns[cardIndex];
+        const playIcon = btn.querySelector('.play-icon');
+        const pauseIcon = btn.querySelector('.pause-icon');
+
+        if (playing) {
+            btn.classList.add('playing');
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'inline';
+        } else {
+            btn.classList.remove('playing');
+            playIcon.style.display = 'inline';
+            pauseIcon.style.display = 'none';
+        }
     }
 
     extractVideoId(url) {
@@ -177,15 +226,11 @@ class PlayerLofi {
     }
 
     stop() {
-        if (!this.iframe) return;
-
-        this.iframe.contentWindow.postMessage(JSON.stringify({
-            event: 'command',
-            func: 'stopVideo'
-        }), '*');
-
-        this.isPlaying = false;
-        this.updatePlayButton(false);
+        this.stopCurrentTrack();
+        this.playBtn.disabled = true;
+        this.stopBtn.disabled = true;
+        this.trackTitle.textContent = 'Sélectionnez un flux';
+        this.trackDescription.textContent = 'Choisissez une musique pour commencer';
     }
 
     updatePlayButton(playing) {
@@ -204,7 +249,7 @@ class PlayerLofi {
 
 // Initialiser le lecteur quand la page est chargée
 document.addEventListener('DOMContentLoaded', () => {
-    new PlayerLofi();
+    window.playerLofi = new PlayerLofi();
 });
 
 // Gestion des raccourcis clavier
