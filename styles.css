@@ -173,18 +173,14 @@ header p {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.control-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(120, 119, 198, 0.3) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
+.control-btn svg {
+    width: 24px;
+    height: 24px;
     transition: all 0.3s ease;
 }
 
@@ -197,9 +193,8 @@ header p {
     border-color: rgba(120, 119, 198, 0.8);
 }
 
-.control-btn:hover:not(:disabled)::before {
-    width: 100px;
-    height: 100px;
+.control-btn:hover:not(:disabled) svg {
+    transform: scale(1.1);
 }
 
 .control-btn:active:not(:disabled) {
@@ -564,8 +559,10 @@ header p {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     min-height: 200px;
+    text-align: center;
 }
 
 .track-card::before {
@@ -601,7 +598,7 @@ header p {
 
 .card-content {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .card-icon {
@@ -626,45 +623,36 @@ header p {
 
 .play-card-btn {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    color: #b8b8ff;
     border: 2px solid rgba(120, 119, 198, 0.5);
-    padding: 12px 20px;
-    border-radius: 25px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
-    font-weight: 600;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(120, 119, 198, 0.2);
+        0 0 12px rgba(120, 119, 198, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
-    align-self: center;
-    width: 100%;
-    max-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.play-card-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.2), transparent);
-    transition: left 0.5s ease;
+.play-card-btn svg {
+    width: 22px;
+    height: 22px;
+    transition: all 0.3s ease;
 }
 
 .play-card-btn:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(120, 119, 198, 0.4);
-    border-color: rgba(120, 119, 198, 0.8);
-    color: #ffffff;
+    transform: scale(1.1);
 }
 
-.play-card-btn:hover::before {
-    left: 100%;
+.play-card-btn:hover svg {
+    transform: scale(1.1);
 }
 
 .play-card-btn.playing {
@@ -697,5 +685,6 @@ header p {
     .track-card {
         min-height: 180px;
     }
-} / *   F o r c e   u p d a t e   f o r   G i t H u b   P a g e s   * /  
- 
+}
+
+/* Forced update for GitHub Pages */
